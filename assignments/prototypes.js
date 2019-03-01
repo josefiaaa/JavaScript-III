@@ -1,33 +1,30 @@
 /*
   Object oriented design is commonly used in video games.  For this part of the assignment you will be implementing several constructor functions with their correct inheritance hierarchy.
 
-  In this file you will be creating three constructor functions: GameObject, CharacterStats, Humanoid.  
+  In this file you will be creating three constructor functions: GameObject, CharacterStats, Humanoid.
 
   At the bottom of this file are 3 objects that all end up inheriting from Humanoid.  Use the objects at the bottom of the page to test your constructor functions.
   
   Each constructor function has unique properties and methods that are defined in their block comments below:
 */
-
-
-
 /*
   === GameObject ===
   * createdAt
   * name
   * dimensions (These represent the character's size in the video game)
   * destroy() // prototype method that returns: `${this.name} was removed from the game.`
-*/  
-
-
-function gameObject(object) {
-  this.createdAt = object.createdAt;
-  this.name = object.name;
-  this.dimensions = object.dimensions;
+*/
+class gameObject {
+  constructor(object) {
+    this.createdAt = object.createdAt;
+    this.name = object.name;
+    this.dimensions = object.dimensions;
+  }
+  destroy() {
+    return `${this.name} was removed from the game.`;
+  }
 }
 
-gameObject.prototype.destroy = function() {
-  return `${this.name} was removed from the game.`;
-}
 
 
 
@@ -38,18 +35,18 @@ gameObject.prototype.destroy = function() {
   * takeDamage() // prototype method -> returns the string '<object name> took damage.'
   * should inherit destroy() from GameObject's prototype
 */
-
-
-function characterStats(stats) {
-  gameObject.call(this, stats);
-  this.healthPoints = stats.healthPoints;
+class characterStats {
+  constructor(stats) {
+    gameObject.call(this, stats);
+    this.healthPoints = stats.healthPoints;
+  }
+  takeDamage() {
+    return `${this.name} took damage!}`;
+  }
 }
 
 characterStats.prototype = Object.create(gameObject.prototype);
 
-characterStats.prototype.takeDamage = function() {
-  return `${this.name} took damage!}`
-}
 
 
 
@@ -63,21 +60,22 @@ characterStats.prototype.takeDamage = function() {
   * should inherit destroy() from GameObject through CharacterStats
   * should inherit takeDamage() from CharacterStats
 */
-
-function Humanoid (char) {
-  characterStats.call(this, char);
-  this.team = char.team;
-  this.weapons = char.weapons;
-  this.language = char.language;
+class Humanoid {
+  constructor(char) {
+    characterStats.call(this, char);
+    this.team = char.team;
+    this.weapons = char.weapons;
+    this.language = char.language;
+  }
+  greet() {
+    return `${this.name} offers a greeting in ${this.language}.`;
+  }
 }
 
 
 Humanoid.prototype = Object.create(characterStats.prototype);
 
-Humanoid.prototype.greet = function () {
-  return `${this.name} offers a greeting in ${this.language}.`
-}
- 
+
 /*
   * Inheritance chain: GameObject -> CharacterStats -> Humanoid
   * Instances of Humanoid should have all of the same properties as CharacterStats and GameObject.
